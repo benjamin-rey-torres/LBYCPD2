@@ -1,0 +1,6 @@
+id,firstName,lastName,department,salary,username,passwordHash
+1,James,Johnson,IT,70000.0,username123,b'$2b$12$i0eXmvqktOMmrlv/5lpbeu2ZSVfHVii8Xz5lvNJFm2luedZjuWhMi'
+2,Michael,Smith,IT,,,
+3,Robert,Cruz,HR,,,
+4,John,Garcia,QA,,,
+5,David,Brown,HR,,,
