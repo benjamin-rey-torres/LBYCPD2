@@ -1,5 +1,6 @@
 from tkinter import *
 from SignUpGUI import SignupWindow
+from DashboardGUI import DashboardWindow
 
 class LoginWindow:
     def __init__(self, loginWindow):
@@ -51,6 +52,9 @@ class LoginWindow:
         passwordInput = self.passwordField.get()
         print(usernameInput) #Remove 
         print(passwordInput) #Remove
+        #if(usernameInput == "user" and passwordInput == "password"):
+        dashboardWindow = DashboardWindow()
+        dashboardWindow.dashboardMainLoop()
 
     def signInController(self):
         signupWindow = SignupWindow()
