@@ -100,7 +100,7 @@ class DashboardWindow:
     # Tab Switching Button
     def showAttendanceGUI(self):
         self.payrollFrame.pack_forget()
-        self.profileFrame.pack_forget
+        self.profileFrame.pack_forget()
         self.attendanceFrame.pack(side = LEFT)
         print("Attendance GUI")
 
