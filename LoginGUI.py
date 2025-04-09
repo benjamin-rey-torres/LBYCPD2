@@ -52,9 +52,11 @@ class LoginWindow:
         passwordInput = self.passwordField.get()
         print(usernameInput) #Remove 
         print(passwordInput) #Remove
+
+        #TODO Put logic for checking password and username
         #if(usernameInput == "user" and passwordInput == "password"):
-        dashboardWindow = DashboardWindow()
-        dashboardWindow.dashboardMainLoop()
+        dashboardWindow = DashboardWindow() #Indent within condition
+        dashboardWindow.dashboardMainLoop() #Indent within condition
 
     def signInController(self):
         signupWindow = SignupWindow()

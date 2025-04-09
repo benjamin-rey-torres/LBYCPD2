@@ -36,7 +36,6 @@ class DashboardWindow:
         self.attendanceFrame.pack(side = LEFT)
         
         # Attendance Frame Content
-        #TODO maybe add clock above th buttons
         self.timeLabel = Label(self.attendanceFrame, text=datetime.datetime.now().strftime("%H:%M:%S"))
         self.timeLabel.pack()
         
@@ -51,30 +50,35 @@ class DashboardWindow:
         self.payrollFrame = Frame(self.dashboardFrame, bg="#f8fab4")
         self.payrollFrame.config(width=500, height=300)
         
+        #ADD Payroll widgets here
 
-
+    # Tab Switching Button
     def showPayroll(self):
-        self.attendanceFrame.Place_forget()
+        self.attendanceFrame.pack_forget()
         self.payrollFrame.pack(side = LEFT)
         
         print("show payroll")
 
     def showAttendanceGUI(self):
-        self.payrollFrame.Place_forget()
+        self.payrollFrame.pack_forget()
         self.attendanceFrame.pack(side = LEFT)
         print("Attendance GUI")
 
+    #Attendance Button Controllers
     def timeIn(self):
-        timeIn = datetime.datetime.now()
+        timeIn = datetime.datetime.now().strftime("%H:%M:%S") #Save this
+        self.updateTime()
+        print('Time in:' + timeIn)
 
     def timeOut(self):
-        timeOut = datetime.datetime.now()
+        timeOut = datetime.datetime.now().strftime("%H:%M:%S") #Save this
+        self.updateTime()
+        print('Time out: ' + timeOut)
 
     def updateTime(self):
-        currentTime = datetime.datetime.now().strftime("%H:%M:%S")
-        self.time_var.set('Current Time: ' + currentTime)
+        self.timeLabel.config(text = datetime.datetime.now().strftime("%H:%M:%S"))
     
-
+    #Main Loop
     def dashboardMainLoop(self):
         self.dashboardWindow.mainloop()
     
