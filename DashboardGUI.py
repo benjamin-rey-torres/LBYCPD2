@@ -97,7 +97,7 @@ class DashboardWindow:
         self.editPasswordButton = Button(self.profileFrame, text='edit', command=self.editPasswordController)
         self.editPasswordButton.grid(row=3, column=2)
 
-    # Tab Switching Button
+    # Tab Switching Controllers
     def showAttendanceGUI(self):
         self.payrollFrame.pack_forget()
         self.profileFrame.pack_forget()
