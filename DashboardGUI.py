@@ -112,13 +112,6 @@ class DashboardWindow:
         oldPassword = "Old Password" #TODO Change this based on users old info
         self.passwordField.insert(END, oldPassword)
         self.passwordField.grid(row=3, column = 1)
-        
-    # Tab Switching Button
-    def showPayroll(self):
-        self.attendanceFrame.pack_forget()
-        self.employeeInfoFrame.pack_forget()
-        self.payrollFrame.pack(side = LEFT)
-        print("show payroll")
 
         #BUTTONS
         self.editFirstNameButton = Button(self.profileFrame, text='edit', command=self.editFirstNameController)
@@ -129,6 +122,14 @@ class DashboardWindow:
         self.editUsernameButton.grid(row=2, column=2)
         self.editPasswordButton = Button(self.profileFrame, text='edit', command=self.editPasswordController)
         self.editPasswordButton.grid(row=3, column=2)
+        
+    # Tab Switching Button
+    def showPayroll(self):
+        self.attendanceFrame.pack_forget()
+        self.employeeInfoFrame.pack_forget()
+        self.employeeInfoFrame.pack_forget()
+        self.payrollFrame.pack(side = LEFT)
+        print("show payroll")
 
     # Tab Switching Controllers
     def showAttendanceGUI(self):
@@ -140,6 +141,7 @@ class DashboardWindow:
     
     def showEmployeeInfo(self):
         self.payrollFrame.pack_forget()
+        self.profileFrame.pack_forget()
         self.attendanceFrame.pack_forget()
         self.employeeInfoFrame.pack(side = LEFT)
         print("Employee Info GUI")
@@ -147,12 +149,14 @@ class DashboardWindow:
     def showPayrollGUI(self):
         self.attendanceFrame.pack_forget()
         self.profileFrame.pack_forget()
+        self.employeeInfoFrame.pack_forget()
         self.payrollFrame.pack(side = LEFT)
         print("show payroll")
 
     def showProfileGUI(self):
         self.attendanceFrame.pack_forget()
         self.payrollFrame.pack_forget()
+        self.employeeInfoFrame.pack_forget()
         self.profileFrame.pack(side = LEFT)
 
 
