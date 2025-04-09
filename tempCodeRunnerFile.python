@@ -1,0 +1,3 @@
+fire = returnHashPass("test123")
+
+# print(checkHashPass("test123",fire))
