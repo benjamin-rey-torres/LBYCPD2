@@ -6,31 +6,33 @@ USE_SQL = False
 EMPLOYEE_CSV = "employeedata"
 
 
-def add_employee_data(id,column,data,type=None):
+def add_employee_data(id,column,data):
+    '''takes in id number and column to put info it to add new data'''
     tempframe = dataImportAndExport.import_csv_to_dataframe(EMPLOYEE_CSV)
     tempframe.loc[id,column] = data
     print(tempframe)
     dataImportAndExport.export_csv_from_dataframe(tempframe,"employeedata")
     
 
-# def edit_data():
+def edit_data(id,column,new_data):
+    '''takes in id number and column to put info it to edit new data'''
+    tempframe = dataImportAndExport.import_csv_to_dataframe(EMPLOYEE_CSV)
+    try:
+        old_data = tempframe.loc[id,column] 
+    except:
+        return "edit_failure"
+    tempframe.loc[id,column] = new_data
+    print(tempframe)
+    dataImportAndExport.export_csv_from_dataframe(tempframe,"employeedata")
 
-# def remove_data():
+def remove_user(id):
+    '''removes row of data'''
+    tempframe = dataImportAndExport.import_csv_to_dataframe(EMPLOYEE_CSV)
+    tempframe = tempframe.drop(index=id)
+    dataImportAndExport.export_csv_from_dataframe(tempframe,"employeedata")
 
-# def query_data():
-
-add_employee_data(1,"salary",70000)
-add_employee_data(1,"username","username123")
-add_employee_data(1,"passwordHash",passwordHashing.returnHashPass("test123"))
-add_employee_data(2,"salary",40000)
-add_employee_data(2,"username","username23")
-add_employee_data(2,"passwordHash",passwordHashing.returnHashPass("check1234"))
-add_employee_data(3,"salary",100000)
-add_employee_data(3,"username","username56")
-add_employee_data(3,"passwordHash",passwordHashing.returnHashPass("yes54321"))
-add_employee_data(4,"salary",10000)
-add_employee_data(4,"username","username78")
-add_employee_data(4,"passwordHash",passwordHashing.returnHashPass("password123"))
-add_employee_data(5,"salary",20000)
-add_employee_data(5,"username","username92")
-add_employee_data(5,"passwordHash",passwordHashing.returnHashPass(""))
+def query_data(search_query):
+    '''returns filtered frame based on search query'''
+    tempframe = dataImportAndExport.import_csv_to_dataframe(EMPLOYEE_CSV)
+    rows = (tempframe.applymap(lambda x: str(x).lower() == search_query)).any(axis=1)
+    return tempframe.loc[rows]
