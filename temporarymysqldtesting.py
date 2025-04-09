@@ -16,12 +16,4 @@ query = """
 # read empolyee table
 df_read_sql = pd.read_sql(query,engine,index_col="id")
 
-# add column with firstname intials
-df_read_sql["firsname_initial"] = df_read_sql["firstName"].astype(str).str[0]
-
-# sort by last name
-df_read_sql = df_read_sql.sort_values(by="lastName")
-
-# print result
-print(df_read_sql)
 
