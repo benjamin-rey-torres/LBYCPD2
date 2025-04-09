@@ -1,6 +1,8 @@
 from tkinter import *
 from SignUpGUI import SignupWindow
 from DashboardGUI import DashboardWindow
+import password_verify
+import dataImportAndExport
 
 class LoginWindow:
     def __init__(self, loginWindow):
@@ -37,8 +39,6 @@ class LoginWindow:
             #NOTE: for func1(), do not include ()
             #signInButton.config(command = func1)
         # BUTTONS
-        self.signInButton = Button(self.loginFrame, text = 'sign-in', command = self.signInController)
-        self.signInButton.grid(row=3, column=0) #"add "command = signInFunction" to Button() arguments
         self.loginButton = Button(self.loginFrame, text = 'login', command=self.loginController)
         self.loginButton.grid(row=3, column=1) #"add "command = loginFunction" to Button() arguments
 
@@ -53,15 +53,16 @@ class LoginWindow:
         print(usernameInput) #Remove 
         print(passwordInput) #Remove
 
-        #TODO Put logic for checking password and username
-        #if(usernameInput == "user" and passwordInput == "password"):
-        dashboardWindow = DashboardWindow() #Indent within condition
-        dashboardWindow.dashboardMainLoop() #Indent within condition
+        # uses password_verify logic to verify username and password
+        if password_verify.verify_valid_user(usernameInput,passwordInput) == 'valid credentials':
+            
+            # gets id and usertype to change dashboard based on current user and their user type
+            tempframe = dataImportAndExport.import_csv_to_dataframe('employeedata')
+            id = tempframe[tempframe['username'].str.contains(usernameInput)].index[0]
+            usertype = tempframe.loc[id,'userType']
 
-    def signInController(self):
-        signupWindow = SignupWindow()
-        signupWindow.signupMainLoop()
-        print("sign in")
+            dashboardWindow = DashboardWindow(id,usertype) #Indent within condition
+            dashboardWindow.dashboardMainLoop() #Indent within condition
 
 
 if __name__ == "__main__":

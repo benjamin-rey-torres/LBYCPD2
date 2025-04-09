@@ -19,6 +19,4 @@ def verify_valid_user(input_user,input_pass):
         return "valid credentials"
     else:
         return "incorrect password"
-    
 
-print(verify_valid_user("username23","check123"))

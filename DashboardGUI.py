@@ -2,10 +2,11 @@ from tkinter import *
 from tkinter import ttk
 import datetime
 import dataImportAndExport
-
+import passwordHashing
+import employeeInformationMangement
 
 class DashboardWindow:
-    def __init__(self):
+    def __init__(self,id,usertype):
         dashboardWindow = Tk()
         self.dashboardWindow = dashboardWindow
 
@@ -18,7 +19,6 @@ class DashboardWindow:
         self.dashboardFrame = Frame(self.dashboardWindow, bg="white")
         self.dashboardFrame.place(relx=0.5, rely=0.5, anchor="center")
 
-        #Frames within dashboardFrame
         #Tabs Frame
         self.tabsFrame = Frame(self.dashboardFrame, bg="#f8fab4")
         self.tabsFrame.config(width = 500, height = 300)
@@ -42,7 +42,6 @@ class DashboardWindow:
         # Employee Info Frame
         self.employeeInfoFrame = Frame(self.dashboardFrame, bg="#f8fab4")
         self.employeeInfoFrame.config(width=500, height=300)
-
 
 
         # Employee Info Content
@@ -84,43 +83,45 @@ class DashboardWindow:
         self.profileFrame.config(width=500, height=300)
 
         #Profile Frame Content
+
+        # temp database frame
+        tempframe = dataImportAndExport.import_csv_to_dataframe('employeedata')
+
         #First Name
         self.firstNameLabel = Label(self.profileFrame, text='First Name:', bg="white")
         self.firstNameLabel.grid(row = 0, column = 0)
         self.firstNameField = Entry(self.profileFrame, bg='#f8fab4')
-        oldFirstName = "Old First Name"    #TODO Change this based on users old info
+        oldFirstName = tempframe.loc[id,'firstName']
         self.firstNameField.insert(END, oldFirstName)
         self.firstNameField.grid(row=0, column = 1)
         #Last Name
         self.lastNameLabel = Label(self.profileFrame, text='Last Name:', bg="white")
         self.lastNameLabel.grid(row = 1, column = 0)
         self.lastNameField = Entry(self.profileFrame, bg='#f8fab4')
-        oldLastName = "Old Last Name"    #TODO Change this based on users old info
+        oldLastName = tempframe.loc[id,'lastName']
         self.lastNameField.insert(END, oldLastName)
         self.lastNameField.grid(row=1, column = 1)
         #Username
         self.usernameLabel = Label(self.profileFrame, text='Username:', bg="white")
         self.usernameLabel.grid(row = 2, column = 0)
         self.usernameField = Entry(self.profileFrame, bg='#f8fab4')
-        oldUsername = "Old Username"    #TODO Change this based on users old info
+        oldUsername = tempframe.loc[id,'username']
         self.usernameField.insert(END, oldUsername)
         self.usernameField.grid(row=2, column = 1)
         #Password 
         self.passwordLabel = Label(self.profileFrame, text='Password:', bg="white")
         self.passwordLabel.grid(row = 3, column = 0)
         self.passwordField = Entry(self.profileFrame, bg='#f8fab4')
-        oldPassword = "Old Password" #TODO Change this based on users old info
-        self.passwordField.insert(END, oldPassword)
         self.passwordField.grid(row=3, column = 1)
 
         #BUTTONS
-        self.editFirstNameButton = Button(self.profileFrame, text='edit', command=self.editFirstNameController)
+        self.editFirstNameButton = Button(self.profileFrame, text='edit', command=lambda:self.editFirstNameController(id))
         self.editFirstNameButton.grid(row=0, column=2)
-        self.editLastNameButton = Button(self.profileFrame, text='edit', command=self.editLastNameController)
+        self.editLastNameButton = Button(self.profileFrame, text='edit', command=lambda:self.editLastNameController(id))
         self.editLastNameButton.grid(row=1, column=2)
-        self.editUsernameButton = Button(self.profileFrame, text='edit', command=self.editUsernameController)
+        self.editUsernameButton = Button(self.profileFrame, text='edit', command=lambda:self.editUsernameController(id))
         self.editUsernameButton.grid(row=2, column=2)
-        self.editPasswordButton = Button(self.profileFrame, text='edit', command=self.editPasswordController)
+        self.editPasswordButton = Button(self.profileFrame, text='edit', command=lambda:self.editPasswordController(id))
         self.editPasswordButton.grid(row=3, column=2)
         
     # Tab Switching Button
@@ -189,25 +190,28 @@ class DashboardWindow:
         
     
     #Edit Profile Controllers
-    def editFirstNameController(self):
+    def editFirstNameController(self,id):
         newFirstName = self.firstNameField.get()
-        print(newFirstName)
-        #TODO Save to Database
+        employeeInformationMangement.add_employee_data(id,"firstName",newFirstName)
+        self.firstNameField.delete(0,END)
+        self.firstNameField.insert(0, newFirstName)
 
-    def editLastNameController(self):
+
+    def editLastNameController(self,id):
         newLastName = self.lastNameField.get()
-        print(newLastName)
-        #TODO Save to Database
+        employeeInformationMangement.add_employee_data(id,"lastName",newLastName)
+        self.lastNameField.delete(0,END)
+        self.lastNameField.insert(0, newLastName)
 
-    def editUsernameController(self):
+    def editUsernameController(self,id):
         newUsername = self.usernameField.get()
-        print(newUsername)
-        #TODO Save to Database
+        employeeInformationMangement.add_employee_data(id,"username",newUsername)
+        self.usernameField.delete(0,END)
+        self.usernameField.insert(0, newUsername)
       
-    def editPasswordController(self):
+    def editPasswordController(self,id):
         newPassword = self.passwordField.get()
-        print(newPassword)
-        #TODO Save to Database
+        employeeInformationMangement.add_employee_data(id,"username",passwordHashing.returnHashPass(newPassword))
 
     #Main Loop
     def dashboardMainLoop(self):
