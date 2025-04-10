@@ -4,6 +4,7 @@ import datetime
 import dataImportAndExport
 import passwordHashing
 import employeeInformationMangement
+import AttendanceManagement
 
 class DashboardWindow:
     def __init__(self,id,usertype):
@@ -94,7 +95,7 @@ class DashboardWindow:
         
         self.updateButton = Button(self.attendanceFrame, text='UPDATE TIME', command = self.updateTime)
         self.updateButton.pack()
-        self.timeInButton = Button(self.attendanceFrame,text='Time-In', command = self.timeIn)
+        self.timeInButton = Button(self.attendanceFrame,text='Time-In', command = lambda:self.timeIn(id))
         self.timeInButton.pack()
         self.timeOutButton = Button(self.attendanceFrame,text='Time-Out', command = self.timeOut)
         self.timeOutButton.pack()
@@ -188,9 +189,10 @@ class DashboardWindow:
 
 
     #Attendance Button Controllers
-    def timeIn(self):
+    def timeIn(self,id):
         timeIn = datetime.datetime.now().strftime("%H:%M:%S") #Save this
         self.updateTime()
+        AttendanceManagement.log_time(timeIn,id,"TimeIn")
         print('Time in:' + timeIn)
 
     def timeOut(self):
