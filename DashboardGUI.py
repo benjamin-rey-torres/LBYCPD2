@@ -12,7 +12,7 @@ class DashboardWindow:
         self.dashboardWindow = dashboardWindow
 
         #Window
-        self.dashboardWindow.geometry("640x640")
+        self.dashboardWindow.geometry("1600x750")
         self.dashboardWindow.title("HR Managment Dashboard")
         self.dashboardWindow.config(background="white")
 
@@ -21,20 +21,21 @@ class DashboardWindow:
         self.dashboardFrame.place(relx=0.5, rely=0.5, anchor="center")
 
         #Tabs Frame
-        self.tabsFrame = Frame(self.dashboardFrame, bg="#f8fab4")
-        self.tabsFrame.config(width = 500, height = 300)
-        self.tabsFrame.pack(side = LEFT)
+        self.tabsFrame = Frame(self.dashboardFrame, bg="#f8fab4", width = 100, height = 400)
+        #self.tabsFrame.config(width = 500, height = 300)
+        self.tabsFrame.pack(side = LEFT, fill='y')
+        self.tabsFrame.pack_propagate(False)
 
         #Buttons in Tabs Frame
         self.attendanceButton = Button(self.tabsFrame, text='ATTENDANCE', command=self.showAttendanceGUI)
-        self.attendanceButton.pack(side = TOP)
+        self.attendanceButton.pack(pady =0, fill='x', side = TOP)
 
         self.profileButton = Button(self.tabsFrame,text = 'PROFILE', command = self.showProfileGUI)
-        self.profileButton.pack(side = TOP)
+        self.profileButton.pack(pady =0, fill='x', side = TOP)
 
         if usertype == "manager" or usertype == "admin":
             self.employeeinfoButton = Button(self.tabsFrame, text='EMPLOYEE_INFO', command=self.showEmployeeInfo)
-            self.employeeinfoButton.pack(side = TOP)
+            self.employeeinfoButton.pack(pady =0, fill='x', side = TOP)
 
             # Employee Info Frame
             self.employeeInfoFrame = Frame(self.dashboardFrame, bg="#f8fab4")
@@ -80,11 +81,15 @@ class DashboardWindow:
                                         df=employeeInformationMangement.query_data(self.searchField.get(),
                                                                                    query_columns=["firstName","lastName","department","salary","username"])))
             self.searchButton.pack()
+        
+        #Logout button in tabs frame
+        self.logoutButton = Button(self.tabsFrame, text ='LOGOUT', command = self.logoutController)
+        self.logoutButton.pack(pady =0, fill='x', side = TOP)
 
         # Attendance Frame
         self.attendanceFrame = Frame(self.dashboardFrame, bg="#f8fab4")
         self.attendanceFrame.config(width=500, height=300)
-        self.attendanceFrame.pack()
+        self.attendanceFrame.pack(fill='x')
         
         # Attendance Frame Content
         self.timeLabel = Label(self.attendanceFrame, text=datetime.datetime.now().strftime("%H:%M:%S"))
@@ -101,7 +106,7 @@ class DashboardWindow:
 
         # Profile Frame
         self.profileFrame = Frame(self.dashboardFrame, bg="#f8fab4")
-        self.profileFrame.config(width=500, height=300)
+        self.profileFrame.config(width=1000, height=800)
 
         #Profile Frame Content
 
@@ -145,6 +150,8 @@ class DashboardWindow:
         self.editPasswordButton = Button(self.profileFrame, text='edit', command=lambda:self.editPasswordController(id))
         self.editPasswordButton.grid(row=3, column=2)
         
+        
+
     # Tab Switching Controllers
     def showAttendanceGUI(self):
         try:
@@ -411,6 +418,9 @@ class DashboardWindow:
     def editPasswordController(self,id):
         newPassword = self.passwordField.get()
         employeeInformationMangement.add_employee_data(id,"username",passwordHashing.returnHashPass(newPassword))
+
+    def logoutController(self):
+        self.dashboardWindow.destroy()
 
     #Main Loop
     def dashboardMainLoop(self):
