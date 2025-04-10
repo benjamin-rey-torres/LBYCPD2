@@ -56,6 +56,14 @@ class DashboardWindow:
 
         self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = self.update_treeview)
         self.updateDataButton.pack()
+
+        self.addDataButton = Button(self.employeeInfoFrame, text='ADD Data', command = self.add_data)
+        self.addDataButton.pack()
+        self.add_userFrame = Frame(self.dashboardFrame)
+
+        self.editDataButton = Button(self.employeeInfoFrame, text='EDIT Data', command = self.edit_data)
+        self.editDataButton.pack()
+        self.edit_userFrame = Frame(self.dashboardFrame)
         
         # Attendance Frame
         self.attendanceFrame = Frame(self.dashboardFrame, bg="#f8fab4")
@@ -186,6 +194,77 @@ class DashboardWindow:
         df_rows = df.to_numpy().tolist()
         for row in df_rows:
             self.treeview1.insert("","end",values=row)
+
+    def add_data(self):
+        self.add_userFrame.pack()
+        tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
+
+        entry_list = []
+
+        id_number_label = Label(self.add_userFrame,text="Id Number")
+        id_number_label.grid(column=0,row=0)
+        id_number_field = Entry(self.add_userFrame)
+        id_number_field.grid(column=1,row=0)
+
+        entry_list.append(id_number_field)
+        for index, column in enumerate(tempframe.columns):
+            add_data_label = Label(self.add_userFrame,text=column)
+            add_data_label.grid(column=0,row=index+1)
+            add_data_field = Entry(self.add_userFrame)
+            add_data_field.grid(column=1,row=index+1)
+            entry_list.append(add_data_field)
+        def add_user():
+            for index, column in enumerate(tempframe.columns):
+                entry_data = entry_list[index+1].get()
+                id_number = id_number_field.get()
+                if entry_data == "":
+                    continue
+                if column == "passwordHash":
+                    employeeInformationMangement.add_employee_data(int(id_number),column,passwordHashing.returnHashPass(entry_data))
+                else:
+                    employeeInformationMangement.add_employee_data(int(id_number),column,entry_data)
+            self.add_userFrame.forget()
+        add_button = Button(self.add_userFrame,text="add_user",command=add_user)
+        add_button.grid(column=0,row=8)
+
+    def edit_data(self):
+        self.edit_userFrame.pack()
+        tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
+
+        entry_list = []
+
+        id_number_label = Label(self.edit_userFrame,text="Id Number")
+        id_number_label.grid(column=0,row=0)
+        id_number_field = Entry(self.edit_userFrame)
+        id_number_field.grid(column=1,row=0)
+
+        list_of_users = tempframe[["firstName","lastName"]].apply(lambda x: ' '.join(x), axis=1).to_list()
+
+        entry_list.append(id_number_field)
+        for index, column in enumerate(tempframe.columns):
+            add_data_label = Label(self.edit_userFrame,text=column)
+            add_data_label.grid(column=0,row=index+1)
+            add_data_field = Entry(self.edit_userFrame)
+            add_data_field.grid(column=1,row=index+1)
+            entry_list.append(add_data_field)
+        def edit_user():
+            for index, column in enumerate(tempframe.columns):
+                entry_data = entry_list[index+1].get()
+                id_number = id_number_field.get()
+                if entry_data == "":
+                    continue
+                if column == "passwordHash":
+                    employeeInformationMangement.add_employee_data(int(id_number),column,passwordHashing.returnHashPass(entry_data))
+                else:
+                    employeeInformationMangement.add_employee_data(int(id_number),column,entry_data)
+            self.edit_userFrame.forget()
+        add_button = Button(self.add_userFrame,text="add_user",command=edit_user)
+        add_button.grid(column=0,row=8)
+
+        variable = StringVar(self.edit_userFrame)
+        drop_down = OptionMenu(self.edit_userFrame,variable,*list_of_users)
+        drop_down.grid(row = 0, column = 9)
+        
 
         
     

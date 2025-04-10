@@ -1,6 +1,6 @@
 id,firstName,lastName,department,salary,username,passwordHash,userType
-1,Jimmy,Johnson,IT,70000,admin,b'$2b$12$U41SI/cXdfD9TbQbfkW7keJiOTMHnWF0VvmCJqyxJ2pYGFlU2DhYa',admin
-2,Michael,Smith,IT,40000,username23,b'$2b$12$bEYakpJJqQssFyvwdg.zFu.K1kucvf2DOAa5OSHV61dZXyM3K3sIe',manager
-3,Robert,Cruz,HR,100000,username56,b'$2b$12$7nLQWrv1CsEmosIuu/Cvq.Z/vd/1hUdWQiLvavJFgKA8SsuNY36QG',employee
-4,John,Garcia,QA,10000,username78,b'$2b$12$DdvEs1mxqPWs2UQTXSWXUev8txG6wboODGCtMJcDP2gYg6p0/7eIa',employee
-5,David,Brown,HR,20000,username92,b'$2b$12$4dztAy7YP3YVFQHZ204CJOGKczGIcBUuk.QOSk4NGG6JDj2uGxa0O',manager
+1,Jimmy,Johnson,IT,70000.0,admin,b'$2b$12$U41SI/cXdfD9TbQbfkW7keJiOTMHnWF0VvmCJqyxJ2pYGFlU2DhYa',admin
+2,Michael,Smith,IT,40000.0,username23,b'$2b$12$bEYakpJJqQssFyvwdg.zFu.K1kucvf2DOAa5OSHV61dZXyM3K3sIe',manager
+3,Robert,Cruz,HR,100000.0,username56,b'$2b$12$7nLQWrv1CsEmosIuu/Cvq.Z/vd/1hUdWQiLvavJFgKA8SsuNY36QG',employee
+4,John,Garcia,QA,10000.0,username78,b'$2b$12$DdvEs1mxqPWs2UQTXSWXUev8txG6wboODGCtMJcDP2gYg6p0/7eIa',employee
+5,David,Brown,HR,20000.0,username92,b'$2b$12$4dztAy7YP3YVFQHZ204CJOGKczGIcBUuk.QOSk4NGG6JDj2uGxa0O',manager
