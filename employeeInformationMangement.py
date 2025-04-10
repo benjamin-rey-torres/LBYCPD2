@@ -31,8 +31,11 @@ def remove_user(id):
     tempframe = tempframe.drop(index=id)
     dataImportAndExport.export_csv_from_dataframe(tempframe,"employeedata")
 
-def query_data(search_query):
+def query_data(search_query,query_columns=None):
     '''returns filtered frame based on search query'''
     tempframe = dataImportAndExport.import_csv_to_dataframe(EMPLOYEE_CSV)
-    rows = (tempframe.applymap(lambda x: str(x).lower() == search_query)).any(axis=1)
+    if query_columns:
+        tempframe = tempframe[query_columns]
+    rows = (tempframe.apply(lambda x:x.str.contains(search_query),axis=1).any(axis=1))
+    print(rows)
     return tempframe.loc[rows]

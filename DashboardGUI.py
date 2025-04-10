@@ -55,7 +55,8 @@ class DashboardWindow:
         treescrolly.pack(side="right", fill="y") 
 
         # update data button
-        self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = self.update_treeview)
+        self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = lambda:
+                                       self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata")))
         self.updateDataButton.pack()
 
         # add data  button
@@ -72,6 +73,15 @@ class DashboardWindow:
         self.deleteDataButton = Button(self.employeeInfoFrame, text='DELETE Data', command = self.delete_data)
         self.deleteDataButton.pack()
         self.delete_userFrame = Frame(self.employeeInfoFrame)
+
+        # search data button
+        self.searchField = Entry(self.employeeInfoFrame)
+        self.searchField.pack()
+        self.searchButton = Button(self.employeeInfoFrame, text="SEARCH",
+                                   command=lambda: self.update_treeview(
+                                    df=employeeInformationMangement.query_data(self.searchField.get(),
+                                                                               query_columns=["firstName","lastName","department"])))
+        self.searchButton.pack()
         
         # Attendance Frame
         self.attendanceFrame = Frame(self.dashboardFrame, bg="#f8fab4")
@@ -191,9 +201,7 @@ class DashboardWindow:
     def updateTime(self):
         self.timeLabel.config(text = datetime.datetime.now().strftime("%H:%M:%S"))
 
-    def update_treeview(self):
-        # imports dataframe from csv
-        df = dataImportAndExport.import_csv_to_dataframe("employeedata")
+    def update_treeview(self,df):
         # get columnns for treeview
         df = df.loc[:,["firstName","lastName","department"]].reset_index()
         self.treeview1['column'] = ["id","firstName","lastName","department"]
