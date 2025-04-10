@@ -56,7 +56,7 @@ class DashboardWindow:
 
         # update data button
         self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = lambda:
-                                       self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata")))
+                                       self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"),import_data=False))
         self.updateDataButton.pack()
 
         # add data  button
@@ -201,8 +201,10 @@ class DashboardWindow:
     def updateTime(self):
         self.timeLabel.config(text = datetime.datetime.now().strftime("%H:%M:%S"))
 
-    def update_treeview(self,df):
+    def update_treeview(self,df,import_data=False):
         # get columnns for treeview
+        if import_data:
+            df = dataImportAndExport.import_csv_to_dataframe("employeedata")
         df = df.loc[:,["firstName","lastName","department"]].reset_index()
         self.treeview1['column'] = ["id","firstName","lastName","department"]
         self.treeview1['show'] = "headings"
@@ -254,7 +256,7 @@ class DashboardWindow:
                     employeeInformationMangement.add_employee_data(int(id_number),column,entry_data)
             # hide add user frame after done
             self.add_userFrame.forget()
-            self.update_treeview()
+            self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"))
 
         # button to do add user command
         add_button = Button(self.add_userFrame,text="add_user",command=add_user)
@@ -301,7 +303,7 @@ class DashboardWindow:
                 else:
                     employeeInformationMangement.add_employee_data(int(id_number),column,entry_data)
             self.edit_userFrame.forget()
-            self.update_treeview()
+            self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"))
 
         edit_button = Button(self.edit_userFrame,text="add_user",command=edit_user)
         edit_button.grid(column=0,row=8)
@@ -355,7 +357,7 @@ class DashboardWindow:
             id = entry_list[0].get()
             employeeInformationMangement.remove_user(int(id))
             self.delete_userFrame.forget()
-            self.update_treeview()
+            self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"))
 
         delete_button = Button(self.delete_userFrame,text="delete,_user",command=delete_user)
         delete_button.grid(column=0,row=8)
