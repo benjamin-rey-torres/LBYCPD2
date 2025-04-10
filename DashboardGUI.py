@@ -2,7 +2,8 @@ from tkinter import *
 from tkinter import ttk
 import datetime
 import dataImportAndExport
-
+import passwordHashing
+import employeeInformationMangement
 
 class DashboardWindow:
     def __init__(self):
