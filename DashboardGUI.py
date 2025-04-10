@@ -54,16 +54,24 @@ class DashboardWindow:
         treescrollx.pack(side="bottom", fill="x")
         treescrolly.pack(side="right", fill="y") 
 
+        # update data button
         self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = self.update_treeview)
         self.updateDataButton.pack()
 
+        # add data  button
         self.addDataButton = Button(self.employeeInfoFrame, text='ADD Data', command = self.add_data)
         self.addDataButton.pack()
-        self.add_userFrame = Frame(self.dashboardFrame)
+        self.add_userFrame = Frame(self.employeeInfoFrame)
 
+        # edit data button
         self.editDataButton = Button(self.employeeInfoFrame, text='EDIT Data', command = self.edit_data)
         self.editDataButton.pack()
-        self.edit_userFrame = Frame(self.dashboardFrame)
+        self.edit_userFrame = Frame(self.employeeInfoFrame)
+
+        # delete data button
+        self.deleteDataButton = Button(self.employeeInfoFrame, text='DELETE Data', command = self.delete_data)
+        self.deleteDataButton.pack()
+        self.delete_userFrame = Frame(self.employeeInfoFrame)
         
         # Attendance Frame
         self.attendanceFrame = Frame(self.dashboardFrame, bg="#f8fab4")
@@ -136,7 +144,7 @@ class DashboardWindow:
     def showPayroll(self):
         self.attendanceFrame.pack_forget()
         self.employeeInfoFrame.pack_forget()
-        self.employeeInfoFrame.pack_forget()
+        self.profileFrame.pack_forget()
         self.payrollFrame.pack(side = LEFT)
         print("show payroll")
 
@@ -184,36 +192,49 @@ class DashboardWindow:
         self.timeLabel.config(text = datetime.datetime.now().strftime("%H:%M:%S"))
 
     def update_treeview(self):
+        # imports dataframe from csv
         df = dataImportAndExport.import_csv_to_dataframe("employeedata")
-        self.treeview1['column'] = ["firstName","lastName","department"]
+        # get columnns for treeview
+        df = df.loc[:,["firstName","lastName","department"]].reset_index()
+        self.treeview1['column'] = ["id","firstName","lastName","department"]
         self.treeview1['show'] = "headings"
         for column in self.treeview1['column']:
             self.treeview1.heading(column, text=column)
 
+        # clear treeview / table
         self.treeview1.delete(*self.treeview1.get_children())
+
+        # insert row data
         df_rows = df.to_numpy().tolist()
         for row in df_rows:
             self.treeview1.insert("","end",values=row)
 
     def add_data(self):
-        self.add_userFrame.pack()
+        #show add-user frame and import data
+        self.add_userFrame.pack(side="right")
         tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
 
         entry_list = []
 
+        # field to put id number
         id_number_label = Label(self.add_userFrame,text="Id Number")
         id_number_label.grid(column=0,row=0)
         id_number_field = Entry(self.add_userFrame)
         id_number_field.grid(column=1,row=0)
 
         entry_list.append(id_number_field)
+        #loop to add other fields
         for index, column in enumerate(tempframe.columns):
             add_data_label = Label(self.add_userFrame,text=column)
             add_data_label.grid(column=0,row=index+1)
             add_data_field = Entry(self.add_userFrame)
             add_data_field.grid(column=1,row=index+1)
             entry_list.append(add_data_field)
+
+        # entry list is used to keep track of fields
+
         def add_user():
+            # go through columns and add information to database for each field with information in it
             for index, column in enumerate(tempframe.columns):
                 entry_data = entry_list[index+1].get()
                 id_number = id_number_field.get()
@@ -223,15 +244,28 @@ class DashboardWindow:
                     employeeInformationMangement.add_employee_data(int(id_number),column,passwordHashing.returnHashPass(entry_data))
                 else:
                     employeeInformationMangement.add_employee_data(int(id_number),column,entry_data)
+            # hide add user frame after done
             self.add_userFrame.forget()
+            self.update_treeview()
+
+        # button to do add user command
         add_button = Button(self.add_userFrame,text="add_user",command=add_user)
         add_button.grid(column=0,row=8)
 
+        # button to exit add user command
+        def exit():
+            self.add_userFrame.forget()
+
+        x_button2 = Button(self.add_userFrame,text="X",command=exit)
+        x_button2.grid(column = 2, row = 0)
+
     def edit_data(self):
-        self.edit_userFrame.pack()
+        #show edit-user frame and import data
+        self.edit_userFrame.pack(side="right")
         tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
 
         entry_list = []
+
 
         id_number_label = Label(self.edit_userFrame,text="Id Number")
         id_number_label.grid(column=0,row=0)
@@ -239,14 +273,15 @@ class DashboardWindow:
         id_number_field.grid(column=1,row=0)
 
         list_of_users = tempframe[["firstName","lastName"]].apply(lambda x: ' '.join(x), axis=1).to_list()
+        index_list = tempframe.index.to_list()
 
         entry_list.append(id_number_field)
         for index, column in enumerate(tempframe.columns):
-            add_data_label = Label(self.edit_userFrame,text=column)
-            add_data_label.grid(column=0,row=index+1)
-            add_data_field = Entry(self.edit_userFrame)
-            add_data_field.grid(column=1,row=index+1)
-            entry_list.append(add_data_field)
+            edit_data_label = Label(self.edit_userFrame,text=column)
+            edit_data_label.grid(column=0,row=index+1)
+            edit_data_field = Entry(self.edit_userFrame)
+            edit_data_field.grid(column=1,row=index+1)
+            entry_list.append(edit_data_field)
         def edit_user():
             for index, column in enumerate(tempframe.columns):
                 entry_data = entry_list[index+1].get()
@@ -258,12 +293,91 @@ class DashboardWindow:
                 else:
                     employeeInformationMangement.add_employee_data(int(id_number),column,entry_data)
             self.edit_userFrame.forget()
-        add_button = Button(self.add_userFrame,text="add_user",command=edit_user)
-        add_button.grid(column=0,row=8)
+            self.update_treeview()
+
+        edit_button = Button(self.edit_userFrame,text="add_user",command=edit_user)
+        edit_button.grid(column=0,row=8)
+
+        def exit():
+            self.edit_userFrame.forget()
+
+        x_button = Button(self.edit_userFrame,text="X",command=exit)
+        x_button.grid(column = 2, row = 0)
+
+        def add_details(input_name):
+             tempframe2 = dataImportAndExport.import_csv_to_dataframe("employeedata")
+             id = index_list[list_of_users.index(input_name)]
+             id_number_field.delete(0,END)
+             id_number_field.insert(0,id)
+             for index, column in enumerate(tempframe.columns):
+                if column == "passwordHash":
+                    continue
+                else:
+                    entry_list[index+1].delete(0,END)
+                    entry_list[index+1].insert(0,tempframe2.loc[id,column])
 
         variable = StringVar(self.edit_userFrame)
-        drop_down = OptionMenu(self.edit_userFrame,variable,*list_of_users)
+        drop_down = OptionMenu(self.edit_userFrame,variable,*list_of_users, command=add_details)
         drop_down.grid(row = 0, column = 9)
+
+    def delete_data(self):
+        #show delete-user frame and import data
+        self.delete_userFrame.pack(side="right")
+        tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
+
+        entry_list = []
+
+
+        id_number_label = Label(self.delete_userFrame,text="Id Number")
+        id_number_label.grid(column=0,row=0)
+        id_number_field = Entry(self.delete_userFrame,state="disabled")
+        id_number_field.grid(column=1,row=0)
+
+        list_of_users = tempframe[["firstName","lastName"]].apply(lambda x: ' '.join(x), axis=1).to_list()
+        index_list = tempframe.index.to_list()
+
+        entry_list.append(id_number_field)
+        for index, column in enumerate(tempframe.columns):
+            delete_data_label = Label(self.delete_userFrame,text=column)
+            delete_data_label.grid(column=0,row=index+1)
+            delete_data_field = Entry(self.delete_userFrame,state="disabled")
+            delete_data_field.grid(column=1,row=index+1)
+            entry_list.append(delete_data_field)
+        def delete_user():
+            id = entry_list[0].get()
+            employeeInformationMangement.remove_user(int(id))
+            self.delete_userFrame.forget()
+            self.update_treeview()
+
+        delete_button = Button(self.delete_userFrame,text="delete,_user",command=delete_user)
+        delete_button.grid(column=0,row=8)
+
+        def exit():
+            self.delete_userFrame.forget()
+
+        x_button = Button(self.delete_userFrame,text="X",command=exit)
+        x_button.grid(column = 2, row = 0)
+
+        def add_details(input_name):
+             tempframe2 = dataImportAndExport.import_csv_to_dataframe("employeedata")
+             id = index_list[list_of_users.index(input_name)]
+             id_number_field.configure(state="normal")
+             id_number_field.delete(0,END)
+             id_number_field.insert(0,id)
+             id_number_field.configure(state="disabled")
+             for index, column in enumerate(tempframe.columns):
+                if column == "passwordHash":
+                    continue
+                else:
+                    entry_list[index+1].configure(state="normal")
+                    entry_list[index+1].delete(0,END)
+                    entry_list[index+1].insert(0,tempframe2.loc[id,column])
+                    entry_list[index+1].configure(state="disabled")
+
+        variable = StringVar(self.delete_userFrame)
+        drop_down = OptionMenu(self.delete_userFrame,variable,*list_of_users, command=add_details)
+        drop_down.grid(row = 0, column = 9)
+
         
 
         
