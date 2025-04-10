@@ -29,61 +29,58 @@ class DashboardWindow:
         self.attendanceButton = Button(self.tabsFrame, text='ATTENDANCE', command=self.showAttendanceGUI)
         self.attendanceButton.pack(side = TOP)
 
-        self.payrollButton = Button(self.tabsFrame, text='PAYROLL', command=self.showPayrollGUI)
-        self.payrollButton.pack(side = TOP)
-
-        
         self.profileButton = Button(self.tabsFrame,text = 'PROFILE', command = self.showProfileGUI)
         self.profileButton.pack(side = TOP)
 
+        if usertype == "manager" or usertype == "admin":
+            self.employeeinfoButton = Button(self.tabsFrame, text='EMPLOYEE_INFO', command=self.showEmployeeInfo)
+            self.employeeinfoButton.pack(side = TOP)
 
-        self.employeeinfoButton = Button(self.tabsFrame, text='EMPLOYEE_INFO', command=self.showEmployeeInfo)
-        self.employeeinfoButton.pack(side = TOP)
-
-        # Employee Info Frame
-        self.employeeInfoFrame = Frame(self.dashboardFrame, bg="#f8fab4")
-        self.employeeInfoFrame.config(width=500, height=300)
+            # Employee Info Frame
+            self.employeeInfoFrame = Frame(self.dashboardFrame, bg="#f8fab4")
+            self.employeeInfoFrame.config(width=500, height=300)
 
 
-        # Employee Info Content
-        self.treeview1 = ttk.Treeview(self.employeeInfoFrame)
-        self.treeview1.pack(fill="both")
+            # Employee Info Content
+            self.treeview1 = ttk.Treeview(self.employeeInfoFrame)
+            self.treeview1.pack(fill="both")
 
-        treescrolly = Scrollbar(self.employeeInfoFrame, orient="vertical", command=self.treeview1.yview) 
-        treescrollx = Scrollbar(self.employeeInfoFrame, orient="horizontal", command=self.treeview1.xview) 
-        self.treeview1.configure(xscrollcommand=treescrollx.set, yscrollcommand=treescrolly.set) 
-        treescrollx.pack(side="bottom", fill="x")
-        treescrolly.pack(side="right", fill="y") 
+            treescrolly = Scrollbar(self.employeeInfoFrame, orient="vertical", command=self.treeview1.yview) 
+            treescrollx = Scrollbar(self.employeeInfoFrame, orient="horizontal", command=self.treeview1.xview) 
+            self.treeview1.configure(xscrollcommand=treescrollx.set, yscrollcommand=treescrolly.set) 
+            treescrollx.pack(side="bottom", fill="x")
+            treescrolly.pack(side="right", fill="y") 
 
-        # update data button
-        self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = lambda:
-                                       self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"),import_data=False))
-        self.updateDataButton.pack()
+            # update data button
+            self.updateDataButton = Button(self.employeeInfoFrame, text='UPDATE Data', command = lambda:
+                                           self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"),import_data=False))
+            self.updateDataButton.pack()
 
-        # add data  button
-        self.addDataButton = Button(self.employeeInfoFrame, text='ADD Data', command = self.add_data)
-        self.addDataButton.pack()
-        self.add_userFrame = Frame(self.employeeInfoFrame)
+            # add data  button
+            self.addDataButton = Button(self.employeeInfoFrame, text='ADD Data', command = lambda:self.add_data(usertype))
+            self.addDataButton.pack()
+            self.add_userFrame = Frame(self.employeeInfoFrame)
 
-        # edit data button
-        self.editDataButton = Button(self.employeeInfoFrame, text='EDIT Data', command = self.edit_data)
-        self.editDataButton.pack()
-        self.edit_userFrame = Frame(self.employeeInfoFrame)
+            # edit data button
+            self.editDataButton = Button(self.employeeInfoFrame, text='EDIT Data', command = lambda:self.edit_data(usertype))
+            self.editDataButton.pack()
+            self.edit_userFrame = Frame(self.employeeInfoFrame)
 
-        # delete data button
-        self.deleteDataButton = Button(self.employeeInfoFrame, text='DELETE Data', command = self.delete_data)
-        self.deleteDataButton.pack()
-        self.delete_userFrame = Frame(self.employeeInfoFrame)
+            if usertype == "admin":
+                # delete data button
+                self.deleteDataButton = Button(self.employeeInfoFrame, text='DELETE Data', command = self.delete_data)
+                self.deleteDataButton.pack()
+                self.delete_userFrame = Frame(self.employeeInfoFrame)
 
-        # search data button
-        self.searchField = Entry(self.employeeInfoFrame)
-        self.searchField.pack()
-        self.searchButton = Button(self.employeeInfoFrame, text="SEARCH",
-                                   command=lambda: self.update_treeview(
-                                    df=employeeInformationMangement.query_data(self.searchField.get(),
-                                                                               query_columns=["firstName","lastName","department"])))
-        self.searchButton.pack()
-        
+            # search data button
+            self.searchField = Entry(self.employeeInfoFrame)
+            self.searchField.pack()
+            self.searchButton = Button(self.employeeInfoFrame, text="SEARCH",
+                                       command=lambda: self.update_treeview(
+                                        df=employeeInformationMangement.query_data(self.searchField.get(),
+                                                                                   query_columns=["firstName","lastName","department","salary","username"])))
+            self.searchButton.pack()
+
         # Attendance Frame
         self.attendanceFrame = Frame(self.dashboardFrame, bg="#f8fab4")
         self.attendanceFrame.config(width=500, height=300)
@@ -97,13 +94,10 @@ class DashboardWindow:
         self.updateButton.pack()
         self.timeInButton = Button(self.attendanceFrame,text='Time-In', command = lambda:self.timeIn(id))
         self.timeInButton.pack()
-        self.timeOutButton = Button(self.attendanceFrame,text='Time-Out', command = self.timeOut)
+        self.timeOutButton = Button(self.attendanceFrame,text='Time-Out', command = lambda:self.timeOut(id))
         self.timeOutButton.pack()
         
-        # Payroll Frame
-        self.payrollFrame = Frame(self.dashboardFrame, bg="#f8fab4")
-        self.payrollFrame.config(width=500, height=300)
-            #ADD Payroll widgets here
+    
 
         # Profile Frame
         self.profileFrame = Frame(self.dashboardFrame, bg="#f8fab4")
@@ -151,54 +145,47 @@ class DashboardWindow:
         self.editPasswordButton = Button(self.profileFrame, text='edit', command=lambda:self.editPasswordController(id))
         self.editPasswordButton.grid(row=3, column=2)
         
-    # Tab Switching Button
-    def showPayroll(self):
-        self.attendanceFrame.pack_forget()
-        self.employeeInfoFrame.pack_forget()
-        self.profileFrame.pack_forget()
-        self.payrollFrame.pack(side = LEFT)
-        print("show payroll")
-
     # Tab Switching Controllers
     def showAttendanceGUI(self):
-        self.payrollFrame.pack_forget()
-        self.profileFrame.pack_forget()
-        self.employeeInfoFrame.pack_forget()
+        try:
+            self.profileFrame.pack_forget()
+            self.employeeInfoFrame.pack_forget()
+        except:
+            pass
         self.attendanceFrame.pack(side = LEFT)
         print("Attendance GUI")
     
     def showEmployeeInfo(self):
-        self.payrollFrame.pack_forget()
-        self.profileFrame.pack_forget()
-        self.attendanceFrame.pack_forget()
+        try:
+            self.profileFrame.pack_forget()
+            self.attendanceFrame.pack_forget()
+        except:
+            pass
         self.employeeInfoFrame.pack(side = LEFT)
+        self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"),import_data=False)
         print("Employee Info GUI")
 
-    def showPayrollGUI(self):
-        self.attendanceFrame.pack_forget()
-        self.profileFrame.pack_forget()
-        self.employeeInfoFrame.pack_forget()
-        self.payrollFrame.pack(side = LEFT)
-        print("show payroll")
-
     def showProfileGUI(self):
-        self.attendanceFrame.pack_forget()
-        self.payrollFrame.pack_forget()
-        self.employeeInfoFrame.pack_forget()
+        try:
+            self.attendanceFrame.pack_forget()
+            self.employeeInfoFrame.pack_forget()
+        except:
+            pass
         self.profileFrame.pack(side = LEFT)
 
 
     #Attendance Button Controllers
     def timeIn(self,id):
-        timeIn = datetime.datetime.now().strftime("%H:%M:%S") #Save this
+        timeIn = datetime.datetime.now()
         self.updateTime()
         AttendanceManagement.log_time(timeIn,id,"TimeIn")
-        print('Time in:' + timeIn)
 
-    def timeOut(self):
-        timeOut = datetime.datetime.now().strftime("%H:%M:%S") #Save this
+
+    def timeOut(self,id):
+        timeOut = datetime.datetime.now()
+        AttendanceManagement.log_time(timeOut,id,"TimeOut")
         self.updateTime()
-        print('Time out: ' + timeOut)
+
 
     def updateTime(self):
         self.timeLabel.config(text = datetime.datetime.now().strftime("%H:%M:%S"))
@@ -207,8 +194,8 @@ class DashboardWindow:
         # get columnns for treeview
         if import_data:
             df = dataImportAndExport.import_csv_to_dataframe("employeedata")
-        df = df.loc[:,["firstName","lastName","department"]].reset_index()
-        self.treeview1['column'] = ["id","firstName","lastName","department"]
+        df = df.loc[:,["firstName","lastName","department","salary","username"]].reset_index()
+        self.treeview1['column'] = ["ID","firstName","lastName","department","salary","username"]
         self.treeview1['show'] = "headings"
         for column in self.treeview1['column']:
             self.treeview1.heading(column, text=column)
@@ -221,7 +208,7 @@ class DashboardWindow:
         for row in df_rows:
             self.treeview1.insert("","end",values=row)
 
-    def add_data(self):
+    def add_data(self,usertype):
         #show add-user frame and import data
         self.add_userFrame.pack(side="right")
         tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
@@ -242,6 +229,10 @@ class DashboardWindow:
             add_data_field = Entry(self.add_userFrame)
             add_data_field.grid(column=1,row=index+1)
             entry_list.append(add_data_field)
+
+        if usertype == 'manager':
+            entry_list[-1].insert(END,"employee")
+            entry_list[-1].configure(state="disabled")
 
         # entry list is used to keep track of fields
 
@@ -271,10 +262,12 @@ class DashboardWindow:
         x_button2 = Button(self.add_userFrame,text="X",command=exit)
         x_button2.grid(column = 2, row = 0)
 
-    def edit_data(self):
+    def edit_data(self,usertype):
         #show edit-user frame and import data
         self.edit_userFrame.pack(side="right")
         tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
+        if usertype == "manager":
+            tempframe = tempframe.drop('userType',axis=1)
 
         entry_list = []
 
@@ -294,6 +287,7 @@ class DashboardWindow:
             edit_data_field = Entry(self.edit_userFrame)
             edit_data_field.grid(column=1,row=index+1)
             entry_list.append(edit_data_field)
+
         def edit_user():
             for index, column in enumerate(tempframe.columns):
                 entry_data = entry_list[index+1].get()

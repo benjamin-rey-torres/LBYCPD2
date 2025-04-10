@@ -1,2 +1,7 @@
 Time,ID,Person,TimeIn/TimeOut
-14:30:35,1.0,Michael Johnson,TimeIn
+2025-04-10 15:17:29.729332,1,Michael Johnson,TimeIn
+2025-04-10 15:17:56.620782,1,Michael Johnson,TimeIn
+2025-04-10 15:18:02.572779,1,Michael Johnson,TimeOut
+2025-04-10 15:18:15.261857,1,Michael Johnson,TimeIn
+2025-04-10 16:14:08.683545,9,Jones Brown,TimeIn
+2025-04-10 16:14:09.742570,9,Jones Brown,TimeOut
