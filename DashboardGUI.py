@@ -308,7 +308,7 @@ class DashboardWindow:
             self.edit_userFrame.forget()
             self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"))
 
-        edit_button = Button(self.edit_userFrame,text="add_user",command=edit_user)
+        edit_button = Button(self.edit_userFrame,text="edit_user",command=edit_user)
         edit_button.grid(column=0,row=8)
 
         def exit():
