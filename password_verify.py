@@ -15,6 +15,7 @@ def verify_valid_user(input_user,input_pass):
     #gets user number if user is valid
     user_number = tempframe[tempframe['username'].str.contains(input_user)].index[0]
     # uses password hashing check to see if password is correct
+    # ast is used to read byte string
     if passwordHashing.checkHashPass(input_pass,ast.literal_eval(tempframe.loc[user_number,"passwordHash"])):
         return "valid credentials"
     else:

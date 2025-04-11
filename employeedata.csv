@@ -1,10 +1,8 @@
 id,firstName,lastName,department,salary,username,passwordHash,userType
-1,Michael,Johnson,IT,70000.0,admin,b'$2b$12$U41SI/cXdfD9TbQbfkW7keJiOTMHnWF0VvmCJqyxJ2pYGFlU2DhYa',admin
-2,Johnny,Johnson,IT,40000.0,username234,b'$2b$12$bEYakpJJqQssFyvwdg.zFu.K1kucvf2DOAa5OSHV61dZXyM3K3sIe',manager
-3,Robert,Cruz,HR,100000.0,username56,b'$2b$12$7nLQWrv1CsEmosIuu/Cvq.Z/vd/1hUdWQiLvavJFgKA8SsuNY36QG',employee
-4,Paul,Garcia,QA,10000.0,username78,b'$2b$12$DdvEs1mxqPWs2UQTXSWXUev8txG6wboODGCtMJcDP2gYg6p0/7eIa',employee
-6,Tom,Davids,QA,70000.0,username300,b'$2b$12$TfG8rLqtceIyT1qcsJWic.h.nTu0r2SEACBHy7umAlFy6O.UMEt0q',employee
-8,Grace,Stevens,IT,10000.0,username123,b'$2b$12$8KdUH2Xoq61.pbw63O2mauR1r3qfl.RFZqbLxxslVyPzzvBBGZFSW',employee
-7,Ross,Jones,IT,10000.0,manager,b'$2b$12$bJaG0Gzzbe8b/MxDWg0.qOXfFgpJ1BjX8yDSGWFQH0fAv2GK8YN4G',manager
-9,James,Brown,IT,40000.0,employee12,b'$2b$12$fvkBXZGS92aV0JhQYD4Bd.atZ..OCsokCcsHYEoIzLmms5W9.Tj3K',employee
-10,Manuel,Cusmano,QA,50000.0,test1,b'$2b$12$kjX0Evct4UEy62zgpjxA4.zJdEobIleqTFoqkx6mgTzsJvgbmzP6m',employee
+1,Mike,Johnson,IT,70000.0,admin,b'$2b$12$U41SI/cXdfD9TbQbfkW7keJiOTMHnWF0VvmCJqyxJ2pYGFlU2DhYa',admin
+2,Ross,Jones,IT,10000.0,manager,b'$2b$12$bJaG0Gzzbe8b/MxDWg0.qOXfFgpJ1BjX8yDSGWFQH0fAv2GK8YN4G',manager
+3,James,Brown,IT,40000.0,employee,b'$2b$12$fvkBXZGS92aV0JhQYD4Bd.atZ..OCsokCcsHYEoIzLmms5W9.Tj3K',employee
+4,Manuel,Cusmano,QA,50000.0,user1,b'$2b$12$6S/NALtsW12XV0iIJtKUCe4n9Ihe5fkE2KokIwd0Op79BdCNWSD.G',employee
+5,Johnny,Johnson,IT,40000.0,user2,b'$2b$12$RwccaeePEYd7DLRzm.1.fuTli18FxnfxDhTK6feIV.B46mWWPqlaK',manager
+6,Robert,Cruz,HR,100000.0,user3,b'$2b$12$h43VTr6q9xRsAfN.6adg2uuo0FDGNWAExYFCEwTFPPfNYLrby7/yS',employee
+7,Paul,Garcia,QA,10000.0,user4,b'$2b$12$MUbqMEC1P56mM/hihtzBw.mA0HsqNiGuSnpm.l2WWzd4Ba638/Mm6',employee
