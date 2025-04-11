@@ -5,6 +5,7 @@ def returnHashPass(input_pass):
     return bcrypt.hashpw(bytes(input_pass,"utf-8"),bcrypt.gensalt())
 
 def checkHashPass(input_pass,req_hash):
+    """Checks if input password matches hash password"""
     if bcrypt.checkpw(bytes(input_pass,"utf-8"), req_hash):
         return True
     else:

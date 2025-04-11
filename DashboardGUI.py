@@ -160,7 +160,6 @@ class DashboardWindow:
         except:
             pass
         self.attendanceFrame.pack(side = LEFT)
-        print("Attendance GUI")
     
     def showEmployeeInfo(self):
         try:
@@ -170,7 +169,6 @@ class DashboardWindow:
             pass
         self.employeeInfoFrame.pack(side = LEFT)
         self.update_treeview(dataImportAndExport.import_csv_to_dataframe("employeedata"),import_data=False)
-        print("Employee Info GUI")
 
     def showProfileGUI(self):
         try:
@@ -270,7 +268,7 @@ class DashboardWindow:
         x_button2.grid(column = 2, row = 0)
 
     def edit_data(self,usertype):
-        #show edit-user frame and import data
+        """edits data in database"""
         self.edit_userFrame.pack(side="right")
         tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
         if usertype == "manager":
@@ -334,7 +332,7 @@ class DashboardWindow:
         drop_down.grid(row = 0, column = 9)
 
     def delete_data(self):
-        #show delete-user frame and import data
+        """deletes data from database"""
         self.delete_userFrame.pack(side="right")
         tempframe = dataImportAndExport.import_csv_to_dataframe("employeedata")
 
@@ -346,16 +344,21 @@ class DashboardWindow:
         id_number_field = Entry(self.delete_userFrame,state="disabled")
         id_number_field.grid(column=1,row=0)
 
+        # list of fields and labels to access easily
         list_of_users = tempframe[["firstName","lastName"]].apply(lambda x: ' '.join(x), axis=1).to_list()
         index_list = tempframe.index.to_list()
 
         entry_list.append(id_number_field)
+        
+        # create labels and fields
         for index, column in enumerate(tempframe.columns):
             delete_data_label = Label(self.delete_userFrame,text=column)
             delete_data_label.grid(column=0,row=index+1)
             delete_data_field = Entry(self.delete_userFrame,state="disabled")
             delete_data_field.grid(column=1,row=index+1)
             entry_list.append(delete_data_field)
+
+        # delete user function
         def delete_user():
             id = entry_list[0].get()
             employeeInformationMangement.remove_user(int(id))
@@ -372,6 +375,7 @@ class DashboardWindow:
         x_button.grid(column = 2, row = 0)
 
         def add_details(input_name):
+             """automatically adds details to fields"""
              tempframe2 = dataImportAndExport.import_csv_to_dataframe("employeedata")
              id = index_list[list_of_users.index(input_name)]
              id_number_field.configure(state="normal")
@@ -391,10 +395,6 @@ class DashboardWindow:
         drop_down = OptionMenu(self.delete_userFrame,variable,*list_of_users, command=add_details)
         drop_down.grid(row = 0, column = 9)
 
-        
-
-        
-    
     #Edit Profile Controllers
     def editFirstNameController(self,id):
         newFirstName = self.firstNameField.get()

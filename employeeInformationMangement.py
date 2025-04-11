@@ -10,7 +10,6 @@ def add_employee_data(id,column,data):
     '''takes in id number and column to put info it to add new data'''
     tempframe = dataImportAndExport.import_csv_to_dataframe(EMPLOYEE_CSV)
     tempframe.loc[id,column] = data
-    print(tempframe)
     dataImportAndExport.export_csv_from_dataframe(tempframe,"employeedata")
     
 
@@ -22,7 +21,6 @@ def edit_data(id,column,new_data):
     except:
         return "edit_failure"
     tempframe.loc[id,column] = new_data
-    print(tempframe)
     dataImportAndExport.export_csv_from_dataframe(tempframe,"employeedata")
 
 def remove_user(id):
@@ -37,5 +35,4 @@ def query_data(search_query,query_columns=None):
     if query_columns:
         tempframe = tempframe[query_columns]
     rows = (tempframe.apply(lambda x:x.str.contains(search_query),axis=1).any(axis=1))
-    print(rows)
     return tempframe.loc[rows]

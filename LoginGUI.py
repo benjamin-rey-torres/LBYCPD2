@@ -1,5 +1,4 @@
 from tkinter import *
-from SignUpGUI import SignupWindow
 from DashboardGUI import DashboardWindow
 import password_verify
 import dataImportAndExport
@@ -50,8 +49,6 @@ class LoginWindow:
     def loginController(self):
         usernameInput = self.usernameField.get()
         passwordInput = self.passwordField.get()
-        print(usernameInput) #Remove 
-        print(passwordInput) #Remove
 
         # uses password_verify logic to verify username and password
         if password_verify.verify_valid_user(usernameInput,passwordInput) == 'valid credentials':

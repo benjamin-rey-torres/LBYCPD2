@@ -7,3 +7,5 @@ Time,ID,Person,TimeIn/TimeOut
 2025-04-10 16:14:09.742570,9,Jones Brown,TimeOut
 2025-04-10 18:30:47.914500,1,Michael Johnson,TimeIn
 2025-04-10 18:30:49.323500,1,Michael Johnson,TimeOut
+2025-04-10 19:57:38.896680,9,James Brown,TimeIn
+2025-04-10 19:57:39.940719,9,James Brown,TimeOut

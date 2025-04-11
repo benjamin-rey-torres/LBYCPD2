@@ -6,5 +6,5 @@ id,firstName,lastName,department,salary,username,passwordHash,userType
 6,Tom,Davids,QA,70000.0,username300,b'$2b$12$TfG8rLqtceIyT1qcsJWic.h.nTu0r2SEACBHy7umAlFy6O.UMEt0q',employee
 8,Grace,Stevens,IT,10000.0,username123,b'$2b$12$8KdUH2Xoq61.pbw63O2mauR1r3qfl.RFZqbLxxslVyPzzvBBGZFSW',employee
 7,Ross,Jones,IT,10000.0,manager,b'$2b$12$bJaG0Gzzbe8b/MxDWg0.qOXfFgpJ1BjX8yDSGWFQH0fAv2GK8YN4G',manager
-9,Jones,Brown,IT,40000.0,employee,b'$2b$12$fvkBXZGS92aV0JhQYD4Bd.atZ..OCsokCcsHYEoIzLmms5W9.Tj3K',employee
+9,James,Brown,IT,40000.0,employee12,b'$2b$12$fvkBXZGS92aV0JhQYD4Bd.atZ..OCsokCcsHYEoIzLmms5W9.Tj3K',employee
 10,Manuel,Cusmano,QA,50000.0,test1,b'$2b$12$kjX0Evct4UEy62zgpjxA4.zJdEobIleqTFoqkx6mgTzsJvgbmzP6m',employee

@@ -1,6 +1,4 @@
 import pandas as pd
-import sqlalchemy
-from sqlalchemy import create_engine
 
 def import_csv_to_dataframe(spreadsheet_name):
     """function that takes in a csv file name to return a pandas dataframe (esentially a table)
